@@ -1,0 +1,88 @@
+RUN
+
+// This is an example program in Cobra language demonstrating all features
+
+// Variable declarations with different types
+var int num1 = 10;
+var float decimal1 = 3.14;
+var text message = "Hello, Cobra!";
+var boolean flag = true;
+var char letter = 'A';
+
+// Constant declarations
+const int MAX_SIZE = 100;
+const float PI = 3.14159;
+const text GREETING = "Welcome to Cobra";
+const boolean DEBUG = false;
+
+// Print statements
+print(num1);
+print(decimal1);
+print(message);
+print(flag);
+print(letter);
+
+// Arithmetic operations
+var int sum = num1 + 5;
+var int diff = num1 - 3;
+var int product = num1 * 2;
+var int quotient = num1 / 2;
+print(sum);
+print(diff);
+print(product);
+print(quotient);
+
+// Conditional statements (without semicolons after blocks)
+if (num1 > 5) then
+<<
+    print("num1 is greater than 5");
+>>
+
+if (num1 == 5) then
+<<
+    print("num1 equals 5");
+>>
+elif (num1 == 10) then
+<<
+    print("num1 equals 10");
+>>
+else
+<<
+    print("num1 is neither 5 nor 10");
+>>
+
+// Loops without semicolons after blocks
+var int counter = 0;
+while (counter < 3) do
+<<
+    print(counter);
+    counter = counter + 1;
+>>
+
+// For loop (need to declare i before using it)
+var int i = 0;
+for (i = 0; i < 3; i = i + 1) do
+<<
+    print(i);
+>>
+
+// Function declaration without semicolon after block
+function add(int a, int b)
+<<
+    return a + b;
+>>
+
+// Exception handling without semicolon after block
+try
+<<
+    var int x = 10;
+    var int y = 0;
+    // This would cause a division by zero error
+    var int z = x / y;
+>>
+catch
+<<
+    print("Caught an exception: Division by zero");
+>>
+
+FINISH; 

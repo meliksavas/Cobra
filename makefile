@@ -1,5 +1,5 @@
 cobra: y.tab.c lex.yy.c
-	gcc -o cobra y.tab.c lex.yy.c -lfl
+	gcc -o cobra y.tab.c lex.yy.c -ll
 
 y.tab.c: cobra.y
 	yacc -d cobra.y

@@ -1,27 +1,46 @@
 # Cobra Programming Language
 
-## Group Members
-- **Melik Savaş** - *20220808015*  
-- **Cenker Aydın** - *20210808002*  
-- **Emre Cecanpunar** - *20220808020*  
-- **Göktuğ Berke Güngören** - *20210808057*  
+A lightweight, educational programming language designed for teaching compiler fundamentals, featuring a custom syntax, type system, and exception handling.
 
-## Running Instructions
+---
+
+## Group Members
+
+| Name                    | Student ID     |
+|-------------------------|----------------|
+| **Melik Savaş**         | 20220808015    |
+| **Cenker Aydın**        | 20210808002    |
+| **Emre Cecanpunar**     | 20220808020    |
+| **Göktuğ Berke Güngören** | 20210808057  |
+
+---
+
+## Getting Started
+
+### Build Instructions
 
 ```bash
 # Compile the compiler
 make cobra
+```
 
-# Run a Cobra program
+### Running a Cobra Program
+
+```bash
 ./cobra < example.cbr
+```
 
-# Clean up generated files
+### Clean Up
+
+```bash
 make clean
 ```
 
-## Grammar of our programming language in BNF format
+---
 
-```
+## Language Grammar (BNF)
+
+```bnf
 <program> ::= <declarations> <code_blocks>
 
 <declarations> ::= (<declaration> ";")*
@@ -82,31 +101,28 @@ make clean
 <float_number> ::= [0-9]+ "." [0-9]+
 <boolean> ::= "true" | "false"
 <char> ::= "'" [a-zA-Z0-9] "'"
-<text> ::= "\"" <text_content> "\""
+<text> ::= """ <text_content> """
 <text_content> ::= [a-zA-Z0-9_ .,!?]*
 
 <id> ::= [a-zA-Z_][a-zA-Z0-9_]*
 ```
 
-## Language Features
+# Language Features
 
-### 1. Simple PL with statement-by-statement execution
-The Cobra language supports sequential execution of statements. Each statement is executed in the order it appears in the program.
+### Statement-by-Statement Execution
 
-### 2. Comments
-Comments in Cobra start with `//` and continue until the end of the line.
+All Cobra programs execute statements in sequential order unless altered by control flow.
 
-Example:
-```
+### Comments
+
+```cobra
 // This is a comment
 var int x = 10; // This is also a comment
 ```
 
-### 3. Conditional Statements
-Cobra supports if-else and if-elif-else constructs for conditional execution.
+### Conditional Statements
 
-Example:
-```
+```cobra
 if (x > 10) then
 <<
     print("x is greater than 10");
@@ -121,11 +137,9 @@ else
 >>
 ```
 
-### 4. Loops
-Cobra supports both while and for loops.
+### Loops
 
-Example:
-```
+```cobra
 // While loop
 var int counter = 0;
 while (counter < 5) do
@@ -141,30 +155,23 @@ for (i = 0; i < 5; i = i + 1) do
 >>
 ```
 
-### 5. Functions
-Cobra allows you to define and call functions.
+### Functions
 
-Example:
-```
-// Function definition
+```cobra
 function add(int a, int b)
 <<
     return a + b;
 >>
 
-// Function call
 var int result = add(5, 3);
 print(result);
 ```
 
-### 6. Exception Handling
-Cobra provides try-catch blocks for exception handling and a throw mechanism for raising exceptions.
+### Exception Handling
 
-Example:
-```
+```cobra
 try
 <<
-    // Code that might throw an exception
     var int x = 10 / 0;
 >>
 catch
@@ -172,77 +179,37 @@ catch
     print("Division by zero error");
 >>
 
-// Throw an exception
 throw "Error message";
 ```
 
-## Key Syntax Notes
-
-Important notes about using the Cobra language with our implementation:
-
-1. The parser reports type errors for non-integer variables when using print, but the output is still shown if you print variables of other types.
-
-2. Our example demonstrates all the required language features:
-   - Simple PL with statement-by-statement execution
-   - Comments
-   - Conditional statements (if-else, if-elif-else)
-   - Loops (for, while)
-   - Functions
-   - Exception handling (try-catch, throw)
-
-3. Boolean operations like `flag && true` are not supported directly in variable assignments.
-
-4. Example usage:
-   ```
-   make cobra
-   ./cobra < full_test.cbr
-   ```
+---
 
 ## Design Decisions
 
-1. **Symbol Table**: We implemented a symbol table to track variable names, types, and values. This allows for type checking and enforcing constant values.
+- **Symbol Table**: Tracks variable names, types, and immutability.
+- **Type System**: Supports `int`, `float`, `text`, `boolean`, `char`, `void`.
+- **Code Blocks**: Enclosed with `<< >>` for structural clarity.
+- **Program Structure**: Begins with `RUN`, ends with `FINISH;`
+- **Exception Stack**: Custom stack handles `throw` and `catch`.
 
-2. **Type System**: Cobra supports five basic types:
-   - int: Integer values
-   - float: Floating-point values
-   - text: String values
-   - boolean: Boolean values (true/false)
-   - char: Single character values
-
-3. **Block Structure**: Code blocks are enclosed in `<<` and `>>` symbols, providing clear visual separation for nested structures.
-
-4. **Program Structure**: All Cobra programs begin with `RUN` and end with `FINISH;`.
-
-5. **Exception Handling**: The language includes built-in exception handling with try-catch blocks and the ability to throw custom exceptions.
-
-6. **Variables and Constants**: Cobra distinguishes between variables (mutable) and constants (immutable) to enhance code safety and readability.
+---
 
 ## Implementation Details
 
-1. **Lexical Analysis**: Implemented using Flex (cobra.l) to tokenize the input program.
+- **Lexer**: Built with **Flex** (`cobra.l`)
+- **Parser**: Built with **Bison/Yacc** (`cobra.y`)
+- **Symbol Table**: Hash table for type & mutability tracking
+- **Semantic Actions**: Used for control flow, type checking, and exception management
+- **Function Execution**: Basic return and call semantics implemented
+- **Error Handling**: Primitive type error warnings printed to stderr
 
-2. **Syntax Analysis**: Implemented using Bison/Yacc (cobra.y) to parse the tokens and construct a parse tree.
-
-3. **Symbol Table**: A simple symbol table stores variable information, including name, type, value, and mutability.
-
-4. **Type Checking**: Basic type checking ensures that operations are performed on compatible types.
-
-5. **Control Flow**: Conditional statements and loops are implemented with appropriate semantic actions.
-
-6. **Function Handling**: Functions are parsed and their calls are implemented, supporting basic return values.
-
-7. **Exception Handling**: Exception stack maintains thrown exceptions that can be caught and handled.
+---
 
 ## Future Enhancements
 
-1. **Type Inference**: Automatically deduce variable types from assigned expressions.
-
-2. **Arrays and Collections**: Add support for arrays and other collection types.
-
-3. **Classes and Objects**: Extend the language with object-oriented features.
-
-4. **Module System**: Implement a module system for better code organization.
-
-5. **Optimizations**: Add compiler optimizations for better performance.
-
-6. **Debugging Tools**: Integrate debugging capabilities into the language.
+- Type inference
+- Arrays and collections
+- Object-oriented extensions
+- Module & import system
+- Optimizing compiler backend
+- Debugging and visualization tools
